@@ -19,12 +19,12 @@ from IPython.display import display,clear_output
 def visualizar():
   # trayendo los datos de la página de la UE y creando dataframe
   # !wget -O casedistribution.csv https://opendata.ecdc.europa.eu/covid19/casedistribution/csv
-  clear_output(wait=True)
+  clear_output()
   datos = pd.read_csv("https://opendata.ecdc.europa.eu/covid19/casedistribution/csv")[['dateRep','cases','deaths','countriesAndTerritories']]
   paises=datos['countriesAndTerritories'].value_counts().index.array
   datos_cum=crear_data_frame(datos,paises)
   paises_mayor_1000_data,paises_mayor_1000=hacer_boxplot(datos_cum,paises)
-  clear_output(wait=True)
+  clear_output()
   print('En el siguiente gráfico se')
   print('muestran las curvas de crecimiento')
   print('de los países con')
@@ -75,7 +75,7 @@ def hacer_boxplot(datos_cum,paises):
   print('Si desea ver el boxplot del')
   print('número total de casos por países')
   print('escriba "SI" (en mayúsculas)')
-  boxplot_pregunta=input('')
+  boxplot_pregunta=input()
   if boxplot_pregunta=='SI':
     fig, ax = plt.subplots(figsize=(15,1))
     ax.set_title('Países con más de 1000 casos reportados')
@@ -86,7 +86,7 @@ def hacer_boxplot(datos_cum,paises):
   print('Si desea ver la tabla del')
   print('total de casos por países')
   print('escriba "SI" (en mayúsculas)')
-  tabla=input('')
+  tabla=input()
   if tabla=='SI':
     paises_mayor_1000_data_mostrar = paises_mayor_1000_data.rename(columns={'countriesAndTerritories': 'PAIS','cum_cases':'Total_casos'})
     display(paises_mayor_1000_data_mostrar)
