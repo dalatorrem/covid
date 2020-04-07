@@ -75,7 +75,7 @@ def hacer_boxplot(datos_cum,paises):
   print('Si desea ver el boxplot del')
   print('número total de casos por países')
   print('escriba "SI" (en mayúsculas)')
-  boxplot_pregunta=input()
+  boxplot_pregunta=input('')
   if boxplot_pregunta=='SI':
     fig, ax = plt.subplots(figsize=(15,1))
     ax.set_title('Países con más de 1000 casos reportados')
@@ -86,7 +86,7 @@ def hacer_boxplot(datos_cum,paises):
   print('Si desea ver la tabla del')
   print('total de casos por países')
   print('escriba "SI" (en mayúsculas)')
-  tabla=input()
+  tabla=input('')
   if tabla=='SI':
     paises_mayor_1000_data_mostrar = paises_mayor_1000_data.rename(columns={'countriesAndTerritories': 'PAIS','cum_cases':'Total_casos'})
     display(paises_mayor_1000_data_mostrar)
