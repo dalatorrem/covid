@@ -87,7 +87,7 @@ def hacer_boxplot(datos_cum,paises):
   tabla=input()
   if tabla=='SI':
     paises_mayor_1000_data_mostrar = paises_mayor_1000_data.rename(columns={'countriesAndTerritories': 'País','cum_cases':'Total casos'})
-    display(paises_mayor_1000_data_mostrar['País','Total casos'])
+    display(paises_mayor_1000_data_mostrar[['País','Total casos']])
   return paises_mayor_1000_data,paises_mayor_1000
 
 def hacer_graficos_por_paises(paises_mayor_1000_data,paises_mayor_1000,datos_cum):
