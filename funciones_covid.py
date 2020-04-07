@@ -11,7 +11,7 @@ import pandas as pd
 import numpy as np
 import math
 import matplotlib.pyplot as plt
-from IPython.display import display
+from IPython.display import display,clear_output
 
 #####################################################################
 #### Función para visualizar
@@ -22,7 +22,9 @@ def visualizar():
   datos = pd.read_csv("https://opendata.ecdc.europa.eu/covid19/casedistribution/csv")[['dateRep','cases','deaths','countriesAndTerritories']]
   paises=datos['countriesAndTerritories'].value_counts().index.array
   datos_cum=crear_data_frame(datos,paises)
+  clear_output(wait=True)
   paises_mayor_1000_data,paises_mayor_1000=hacer_boxplot(datos_cum,paises)
+  clear_output(wait=True)
   print('En el siguiente gráfico se')
   print('muestran las curvas de crecimiento')
   print('de los países con')
