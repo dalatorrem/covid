@@ -65,7 +65,6 @@ def hacer_boxplot(datos_cum,paises):
   paises_mayor_1000_data=paises_mayor_1000_data.sort_values(by='cum_cases')
   paises_mayor_1000=paises_mayor_1000_data['countriesAndTerritories']
   red_square = dict(markerfacecolor='r', marker='s')
-  clear_output()
   print('Si desea ver el boxplot del')
   print('número total de casos por países')
   print('escriba "SI" (en mayúsculas)')
@@ -86,14 +85,14 @@ def hacer_boxplot(datos_cum,paises):
     display(paises_mayor_1000_data_mostrar)
   return paises_mayor_1000_data,paises_mayor_1000
 def incluir_dia(datos_cum):
-  eje_x=datos_cum[datos_cum['countriesAndTerritories']=='China']
-  l=len(eje_x['cum_cases'])
-  eje_x['dia']=pd.Series(np.arange(0,l), index=eje_x.index)  
+  eje_x_1=datos_cum[datos_cum['countriesAndTerritories']=='China']
+  l=len(eje_x_1['cum_cases'])
+  dias=pd.Series(np.arange(0,l), index=eje_x_1.index)
+  eje_x=eje_x_1.join(dias)
   dia_num=lambda data,dia:data.loc[data['dateRep']==dia,'dia'].iloc[0]
   datos_cum['dia']=[dia_num(eje_x,dia) for dia in datos_cum['dateRep']]
   return datos_cum,eje_x
 def hacer_graficos_por_paises(paises_mayor_1000_data,paises_mayor_1000,datos_cum):
-  clear_output()
   print('En el siguiente gráfico se')
   print('muestran las curvas de crecimiento')
   print('de los países con')
