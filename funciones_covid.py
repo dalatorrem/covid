@@ -81,7 +81,7 @@ def hacer_boxplot(datos_cum,paises):
 def hacer_graficos_por_paises(paises_mayor_1000_data,paises_mayor_1000,datos_cum):
   no_graficos=len(paises_mayor_1000)//5+1
   no_filas=math.ceil(no_graficos//3)
-  fig,axes=plt.subplots(nrows=no_filas,ncols=3,figsize=(19,4*no_filas))
+  fig,axes=plt.subplots(nrows=no_filas,ncols=3,figsize=(20,5.2*no_filas))
   eje_x=datos_cum[datos_cum['countriesAndTerritories']=='China']
   eje_x['dia']=np.arange(0,len(eje_x['cum_cases']))
   dia_num=lambda data,dia:data.loc[data['dateRep']==dia,'dia'].iloc[0]
