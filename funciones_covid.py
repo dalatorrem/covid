@@ -86,7 +86,8 @@ def hacer_boxplot(datos_cum,paises):
   paises_mayor_1000_data=paises_mayor_1000_data.sort_values(by='cum_cases')
   paises_mayor_1000=paises_mayor_1000_data['countriesAndTerritories']
   l=len(paises_mayor_1000)
-  paises_mayor_1000_data=paises_mayor_1000_data.set_index([pd.Series(np.arange(l))])
+  indices=pd.Series(np.arange(0,l,1))
+  paises_mayor_1000_data=paises_mayor_1000_data.set_index(indices)
   red_square = dict(markerfacecolor='r', marker='s')
   fig, ax = plt.subplots(nrows=2,figsize=(18,6))
   ax[0].set_title('Países con más de 1000 casos reportados')
