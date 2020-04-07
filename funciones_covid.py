@@ -23,7 +23,14 @@ def visualizar():
   paises=datos['countriesAndTerritories'].value_counts().index.array
   datos_cum=crear_data_frame(datos,paises)
   paises_mayor_1000_data,paises_mayor_1000=hacer_boxplot(datos_cum,paises)
-  print('En el siguiente gráfico se han agrupado los países con más de mil casos, tenga en cuenta las escalas')
+  print('En el siguiente gráfico se')
+  print('muestran las curvas de crecimiento'
+  print('de los países con')
+  print('más de mil casos.')
+  print('Los países se han agrupado')
+  print('con los que tienen un número')
+  print('de casos similares')
+  print('Tenga en cuenta las escalas')
   datos_cum=hacer_graficos_por_paises(paises_mayor_1000_data,paises_mayor_1000,datos_cum)
 
 
@@ -63,7 +70,9 @@ def hacer_boxplot(datos_cum,paises):
   paises_mayor_1000_data=paises_mayor_1000_data.sort_values(by='cum_cases')
   paises_mayor_1000=paises_mayor_1000_data['countriesAndTerritories']
   red_square = dict(markerfacecolor='r', marker='s')
-  print('Si desea ver el boxplot del Número total de casos por países escriba "SI" (en mayúsculas)')
+  print('Si desea ver el boxplot del')
+  print('número total de casos por países')
+  print('escriba "SI" (en mayúsculas)')
   boxplot_pregunta=input()
   if boxplot_pregunta=='SI':
     fig, ax = plt.subplots(figsize=(15,1))
@@ -72,10 +81,13 @@ def hacer_boxplot(datos_cum,paises):
     ax.set_yticklabels('')
     ax.set_xlabel('Número de casos')
     plt.show()
-  print('Si desea ver la tabla del total de casos por países escriba "SI" (en mayúsculas) ')
+  print('Si desea ver la tabla del')
+  print('total de casos por países')
+  print('escriba "SI" (en mayúsculas)')
   tabla=input()
   if tabla=='SI':
-    display(paises_mayor_1000_data)
+    paises_mayor_1000_data_mostrar = paises_mayor_1000_data.rename(columns={'countriesAndTerritories': 'País','cum_cases':'Total casos'})
+    display(paises_mayor_1000_data_mostrar['País','Total casos'])
   return paises_mayor_1000_data,paises_mayor_1000
 
 def hacer_graficos_por_paises(paises_mayor_1000_data,paises_mayor_1000,datos_cum):
@@ -86,12 +98,14 @@ def hacer_graficos_por_paises(paises_mayor_1000_data,paises_mayor_1000,datos_cum
   eje_x['dia']=np.arange(0,len(eje_x['cum_cases']))
   dia_num=lambda data,dia:data.loc[data['dateRep']==dia,'dia'].iloc[0]
   datos_cum['dia']=[dia_num(eje_x,dia) for dia in datos_cum['dateRep']]
-  print('Curvas de casos para todos los países con más de mil casos')
-  print( 'El día 0 corresponde al 31 de diciembre de 2019')
-  print('Introduzca el día inicial, por ejemplo 0')
+  print( 'El día 0 corresponde al:')
+  print('31 de diciembre de 2019')
+  print('Introduzca el día inicial,')
+  print('por ejemplo 0')
   dia_inicial=int(input())
   maximo=len(eje_x['dia'])-1
-  print('Introduzca el último día para la gráfica, valor máximo',maximo)
+  print('Introduzca el último día para')
+  print('la gráfica, valor máximo',maximo)
   dia_final=int(input())
   arreglo_x=np.arange(dia_inicial,dia_final)
   datos=pd.DataFrame(columns=datos_cum.columns)
