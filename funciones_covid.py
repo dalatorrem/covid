@@ -91,7 +91,7 @@ def incluir_dia(datos_cum):
   eje_x['dia']=np.arange(0,l)
   dia_num=lambda data,dia:data.loc[data['dateRep']==dia,'dia'].iloc[0]
   datos_cum['dia']=[dia_num(eje_x,dia) for dia in datos_cum['dateRep']]
-  return datos_cum
+  return datos_cum,eje_x
 def hacer_graficos_por_paises(paises_mayor_1000_data,paises_mayor_1000,datos_cum):
   clear_output()
   print('En el siguiente gráfico se')
@@ -115,7 +115,7 @@ def hacer_graficos_por_paises(paises_mayor_1000_data,paises_mayor_1000,datos_cum
   no_graficos=len(paises_mayor_1000)//5+1
   no_filas=math.ceil(no_graficos//3)
   fig,axes=plt.subplots(nrows=no_filas,ncols=3,figsize=(20,5.2*no_filas))
-  datos_cum=incluir_dia_(datos_cum)
+  datos_cum,eje_x=incluir_dia_(datos_cum)
   datos=pd.DataFrame(columns=datos_cum.columns)
   grupo=1
   for fil in range(no_filas):
