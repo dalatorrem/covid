@@ -11,7 +11,7 @@ import pandas as pd
 import numpy as np
 import math
 import matplotlib.pyplot as plt
-from IPython.display import display,clear_output
+from IPython.display import display
 
 #####################################################################
 #### Función para visualizar
@@ -86,9 +86,9 @@ def hacer_boxplot(datos_cum,paises):
   return paises_mayor_1000_data,paises_mayor_1000
 def incluir_dia(datos_cum):
   eje_x_1=datos_cum[datos_cum['countriesAndTerritories']=='China']
-  l=len(eje_x_1['cum_cases'])
-  dias=pd.Series(np.arange(0,l), index=eje_x_1.index)
-  eje_x=eje_x_1.join(dias)
+  eje_x=eje_x_1.copy()
+  l=len(eje_x['cum_cases'])
+  eje_x['dia']=np.arange(0,l)
   dia_num=lambda data,dia:data.loc[data['dateRep']==dia,'dia'].iloc[0]
   datos_cum['dia']=[dia_num(eje_x,dia) for dia in datos_cum['dateRep']]
   return datos_cum,eje_x
