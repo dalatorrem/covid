@@ -88,7 +88,7 @@ def hacer_boxplot(datos_cum,paises):
 def incluir_dia(datos_cum):
   eje_x=datos_cum[datos_cum['countriesAndTerritories']=='China']
   l=len(eje_x['cum_cases'])
-  eje_x['dia']=np.arange(0,l)
+  eje_x['dia']=pd.Series(np.arange(0,l), index=eje_x.index)  
   dia_num=lambda data,dia:data.loc[data['dateRep']==dia,'dia'].iloc[0]
   datos_cum['dia']=[dia_num(eje_x,dia) for dia in datos_cum['dateRep']]
   return datos_cum,eje_x
