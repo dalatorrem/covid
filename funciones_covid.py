@@ -93,7 +93,6 @@ def incluir_dia(datos_cum):
   datos_cum['dia']=[dia_num(eje_x,dia) for dia in datos_cum['dateRep']]
   return datos_cum,eje_x
 def hacer_graficos_por_paises(paises_mayor_1000_data,paises_mayor_1000,datos_cum):
-  datos_cum,eje_x=incluir_dia_(datos_cum)
   clear_output()
   print('En el siguiente gráfico se')
   print('muestran las curvas de crecimiento')
@@ -108,6 +107,7 @@ def hacer_graficos_por_paises(paises_mayor_1000_data,paises_mayor_1000,datos_cum
   print('Introduzca el día inicial,')
   print('por ejemplo 0')
   dia_inicial=int(input())
+  datos_cum,eje_x=incluir_dia_(datos_cum)
   maximo=len(eje_x['dia'])-1
   print('Introduzca el último día para')
   print('la gráfica, valor máximo',maximo)
