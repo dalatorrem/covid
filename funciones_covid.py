@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 #####################################################################
 def visualizar():
   # trayendo los datos de la página de la UE y creando dataframe
-  !wget -O casedistribution.csv https://opendata.ecdc.europa.eu/covid19/casedistribution/csv
+  wget -O casedistribution.csv https://opendata.ecdc.europa.eu/covid19/casedistribution/csv
   datos = pd.read_csv("casedistribution.csv")[['dateRep','cases','deaths','countriesAndTerritories']]
   paises=datos['countriesAndTerritories'].value_counts().index.array
   datos_cum=crear_data_frame(datos)
