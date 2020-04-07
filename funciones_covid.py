@@ -85,15 +85,14 @@ def hacer_boxplot(datos_cum,paises):
     paises_mayor_1000_data_mostrar = paises_mayor_1000_data.rename(columns={'countriesAndTerritories': 'PAIS','cum_cases':'Total_casos'})
     display(paises_mayor_1000_data_mostrar)
   return paises_mayor_1000_data,paises_mayor_1000
-
-def hacer_graficos_por_paises(paises_mayor_1000_data,paises_mayor_1000,datos_cum):
-  no_graficos=len(paises_mayor_1000)//5+1
-  no_filas=math.ceil(no_graficos//3)
-  fig,axes=plt.subplots(nrows=no_filas,ncols=3,figsize=(20,5.2*no_filas))
+def incluir_dia(datos_cum):
   eje_x=datos_cum[datos_cum['countriesAndTerritories']=='China']
-  eje_x['dia']=np.arange(0,len(eje_x['cum_cases']))
+  l=len(eje_x['cum_cases'])
+  eje_x['dia']=np.arange(0,l)
   dia_num=lambda data,dia:data.loc[data['dateRep']==dia,'dia'].iloc[0]
   datos_cum['dia']=[dia_num(eje_x,dia) for dia in datos_cum['dateRep']]
+  return datos_cum
+def hacer_graficos_por_paises(paises_mayor_1000_data,paises_mayor_1000,datos_cum):
   clear_output()
   print('En el siguiente gráfico se')
   print('muestran las curvas de crecimiento')
@@ -113,6 +112,10 @@ def hacer_graficos_por_paises(paises_mayor_1000_data,paises_mayor_1000,datos_cum
   print('la gráfica, valor máximo',maximo)
   dia_final=int(input())
   arreglo_x=np.arange(dia_inicial,dia_final)
+  no_graficos=len(paises_mayor_1000)//5+1
+  no_filas=math.ceil(no_graficos//3)
+  fig,axes=plt.subplots(nrows=no_filas,ncols=3,figsize=(20,5.2*no_filas))
+  datos_cum=incluir_dia_(datos_cum)
   datos=pd.DataFrame(columns=datos_cum.columns)
   grupo=1
   for fil in range(no_filas):
