@@ -19,12 +19,11 @@ from IPython.display import display,clear_output
 def visualizar():
   # trayendo los datos de la página de la UE y creando dataframe
   # !wget -O casedistribution.csv https://opendata.ecdc.europa.eu/covid19/casedistribution/csv
-  clear_output()
+  
   datos = pd.read_csv("https://opendata.ecdc.europa.eu/covid19/casedistribution/csv")[['dateRep','cases','deaths','countriesAndTerritories']]
   paises=datos['countriesAndTerritories'].value_counts().index.array
   datos_cum=crear_data_frame(datos,paises)
   paises_mayor_1000_data,paises_mayor_1000=hacer_boxplot(datos_cum,paises)
-  clear_output()
   print('En el siguiente gráfico se')
   print('muestran las curvas de crecimiento')
   print('de los países con')
@@ -72,6 +71,7 @@ def hacer_boxplot(datos_cum,paises):
   paises_mayor_1000_data=paises_mayor_1000_data.sort_values(by='cum_cases')
   paises_mayor_1000=paises_mayor_1000_data['countriesAndTerritories']
   red_square = dict(markerfacecolor='r', marker='s')
+  clear_output()
   print('Si desea ver el boxplot del')
   print('número total de casos por países')
   print('escriba "SI" (en mayúsculas)')
