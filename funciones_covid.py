@@ -19,20 +19,33 @@ from IPython.display import display
 def visualizar():
   # trayendo los datos de la página de la UE y creando dataframe
   # !wget -O casedistribution.csv https://opendata.ecdc.europa.eu/covid19/casedistribution/csv
-  
   datos = pd.read_csv("https://opendata.ecdc.europa.eu/covid19/casedistribution/csv")[['dateRep','cases','deaths','countriesAndTerritories']]
+  
+
+  maximo=len(datos[datos['countriesAndTerritories']=='United_States_of_America'])
+  print('Introduzca días para los ')
+  print('gráficos de curvas.')
+  print('El día 0 corresponde al:')
+  print('31 de diciembre de 2019')
+  print('Introduzca el día inicial,')
+  print('por ejemplo 0')
+  dia_inicial=int(input())
+  print('Introduzca el último día,')
+  print('valor máximo',maximo)
+  dia_final=int(input())
+  
   datos.replace('United_States_of_America','USA')
   datos.replace('United_Kingdom','UK')
   datos.replace('United_Arab_Emirates','UAE')
   datos.replace('Dominic_Republic','Dominic_R')
-  
+  display(datos)
   paises=datos['countriesAndTerritories'].value_counts().index.array
   datos_cum=crear_data_frame(datos,paises)
   paises_mayor_1000_data,paises_mayor_1000=hacer_boxplot(datos_cum,paises)
   separador()
   casos_mortalidad(paises_mayor_1000_data)
   separador()
-  datos_cum=hacer_graficos_por_paises(paises_mayor_1000_data,paises_mayor_1000,datos_cum)
+  datos_cum=hacer_graficos_por_paises(paises_mayor_1000_data,paises_mayor_1000,datos_cum,dia_inicial,dia_final)
 
   
 
@@ -76,7 +89,7 @@ def hacer_boxplot(datos_cum,paises):
   l=len(paises_mayor_1000)
   paises_mayor_1000_data.set_index([pd.Series(np.arange(l))])
   red_square = dict(markerfacecolor='r', marker='s')
-  fig, ax = plt.subplots(nrows=2,figsize=(15,1))
+  fig, ax = plt.subplots(nrows=2,figsize=(15,4))
   ax[0].set_title('Países con más de 1000 casos reportados')
   ax[0].boxplot(paises_mayor_1000_data['cum_cases'], vert=False, flierprops=red_square)
   ax[1].boxplot(paises_mayor_1000_data['cum_deaths'], vert=False, flierprops=red_square)
@@ -96,30 +109,20 @@ def incluir_dia(datos_cum):
   dia_num=lambda data,dia:data.loc[data['dateRep']==dia,'dia'].iloc[0]
   datos_cum['dia']=[dia_num(eje_x,dia) for dia in datos_cum['dateRep']]
   return datos_cum,eje_x
-def hacer_graficos_por_paises(paises_mayor_1000_data,paises_mayor_1000,datos_cum):
-  print('El día 0 corresponde al:')
-  print('31 de diciembre de 2019')
-  print('Para graficar:')
-  print('Introduzca el día inicial,')
-  print('por ejemplo 0')
-  dia_inicial=int(input())
+def hacer_graficos_por_paises(paises_mayor_1000_data,paises_mayor_1000,datos_cum,dia_inicial,dia_final):
   datos_cum,eje_x=incluir_dia(datos_cum)
   maximo=len(eje_x['dia'])-1
-  print('Introduzca el último día,')
-  print('valor máximo',maximo)
-  dia_final=int(input())
-  arreglo_x=np.arange(dia_inicial,dia_final)
   no_graficos=len(paises_mayor_1000)//5+1
   separador()
-  conjunto_graficas(no_graficos,datos_cum,paises_mayor_1000,paises_mayor_1000_data,'cum_cases')
+  conjunto_graficas(no_graficos,datos_cum,paises_mayor_1000,paises_mayor_1000_data,'cum_cases',dia_inicial,dia_final)
   separador()
-  conjunto_graficas(no_graficos,datos_cum,paises_mayor_1000,paises_mayor_1000_data,'cum_deaths')
+  conjunto_graficas(no_graficos,datos_cum,paises_mayor_1000,paises_mayor_1000_data,'cum_deaths',dia_inicial,dia_inicial)
   separador()
   return datos_cum
 def separador():
   for i in range(3):
-    print('#####################################################################################')
-def conjunto_graficas(no_graficos,datos_cum,paises_mayor_1000,paises_mayor_1000_data,variable):
+    print('###############################################################################################################################################################################################################################################################')
+def conjunto_graficas(no_graficos,datos_cum,paises_mayor_1000,paises_mayor_1000_data,variable,dia_inicial,dia_final):
   no_filas=math.ceil(no_graficos//3)
   fig,axes=plt.subplots(nrows=no_filas,ncols=3,figsize=(20,5.2*no_filas))
   datos=pd.DataFrame(columns=datos_cum.columns)
@@ -150,7 +153,7 @@ def conjunto_graficas(no_graficos,datos_cum,paises_mayor_1000,paises_mayor_1000_
 def casos_mortalidad(paises_mayor_1000_data):
   tasa_mort=paises_mayor_1000_data['cum_deaths']/paises_mayor_1000_data['cum_cases']
   fig,ax=plt.subplots(figsize=(15,5))
-  ax.scatter(paises_mayor_1000_data['cum_cases'], tasa_mort, c=paises_mayor_1000_data['cum_cases'], s=paises_mayor_1000_data['cum_cases'], alpha=0.5)
+  ax.scatter(paises_mayor_1000_data['cum_cases'], tasa_mort, c=paises_mayor_1000_data['cum_cases'], s=np.log(paises_mayor_1000_data['cum_cases']), alpha=0.5)
   ax.set_xlabel('Número de Infectados')
   ax.set_ylabel('Tasa de Mortalidad')
   ax.set_title('Tasa de mortalidad respecto al número de infectados (Área log de no. muertes)')
