@@ -21,7 +21,7 @@ def visualizar():
   # !wget -O casedistribution.csv https://opendata.ecdc.europa.eu/covid19/casedistribution/csv
   datos = pd.read_csv("https://opendata.ecdc.europa.eu/covid19/casedistribution/csv")[['dateRep','cases','deaths','countriesAndTerritories']]
   paises=datos['countriesAndTerritories'].value_counts().index.array
-  datos_cum=crear_data_frame(datos)
+  datos_cum=crear_data_frame(datos,paises)
   paises_mayor_1000_data,paises_mayor_1000=hacer_boxplot(datos_cum,paises)
   print('En el siguiente gráfico se han agrupado los países con más de mil casos, tenga en cuenta las escalas')
   datos_cum=hacer_graficos_por_paises(paises_mayor_1000_data,paises_mayor_1000,datos_cum)
