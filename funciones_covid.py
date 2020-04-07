@@ -34,11 +34,10 @@ def visualizar():
   print('valor máximo',maximo)
   dia_final=int(input())
   
-  datos.replace('United_States_of_America','USA')
-  datos.replace('United_Kingdom','UK')
-  datos.replace('United_Arab_Emirates','UAE')
-  datos.replace('Dominic_Republic','Dominic_R')
-  display(datos)
+  datos=datos.replace('United_States_of_America','USA')
+  datos=datos.replace('United_Kingdom','UK')
+  datos=datos.replace('United_Arab_Emirates','UAE')
+  datos=datos.replace('Dominic_Republic','Dominic_R')
   paises=datos['countriesAndTerritories'].value_counts().index.array
   datos_cum=crear_data_frame(datos,paises)
   paises_mayor_1000_data,paises_mayor_1000=hacer_boxplot(datos_cum,paises)
@@ -89,15 +88,16 @@ def hacer_boxplot(datos_cum,paises):
   l=len(paises_mayor_1000)
   paises_mayor_1000_data.set_index([pd.Series(np.arange(l))])
   red_square = dict(markerfacecolor='r', marker='s')
-  fig, ax = plt.subplots(nrows=2,figsize=(15,4))
+  fig, ax = plt.subplots(nrows=2,figsize=(15,6))
   ax[0].set_title('Países con más de 1000 casos reportados')
   ax[0].boxplot(paises_mayor_1000_data['cum_cases'], vert=False, flierprops=red_square)
-  ax[1].boxplot(paises_mayor_1000_data['cum_deaths'], vert=False, flierprops=red_square)
+  ax[0].set_xlabel('Número de casos')
   ax[0].set_yticklabels('')
   ax[1].set_yticklabels('')
-  ax[0].set_xlabel('Número de casos')
+  ax[1].boxplot(paises_mayor_1000_data['cum_deaths'], vert=False, flierprops=red_square)
   ax[1].set_xlabel('Número de muertes')
   plt.show()
+  separador()
   paises_mayor_1000_data_mostrar = paises_mayor_1000_data.rename(columns={'countriesAndTerritories': 'PAIS','cum_cases':'CASOS','cum_deaths':'MUERTES'})
   display(paises_mayor_1000_data_mostrar)
   return paises_mayor_1000_data,paises_mayor_1000
@@ -111,16 +111,14 @@ def incluir_dia(datos_cum):
   return datos_cum,eje_x
 def hacer_graficos_por_paises(paises_mayor_1000_data,paises_mayor_1000,datos_cum,dia_inicial,dia_final):
   datos_cum,eje_x=incluir_dia(datos_cum)
-  maximo=len(eje_x['dia'])-1
   no_graficos=len(paises_mayor_1000)//5+1
-  separador()
   conjunto_graficas(no_graficos,datos_cum,paises_mayor_1000,paises_mayor_1000_data,'cum_cases',dia_inicial,dia_final)
   separador()
-  conjunto_graficas(no_graficos,datos_cum,paises_mayor_1000,paises_mayor_1000_data,'cum_deaths',dia_inicial,dia_inicial)
+  conjunto_graficas(no_graficos,datos_cum,paises_mayor_1000,paises_mayor_1000_data,'cum_deaths',dia_inicial,dia_final)
   separador()
   return datos_cum
 def separador():
-  for i in range(3):
+  for i in range(5):
     print('###############################################################################################################################################################################################################################################################')
 def conjunto_graficas(no_graficos,datos_cum,paises_mayor_1000,paises_mayor_1000_data,variable,dia_inicial,dia_final):
   no_filas=math.ceil(no_graficos//3)
@@ -153,9 +151,9 @@ def conjunto_graficas(no_graficos,datos_cum,paises_mayor_1000,paises_mayor_1000_
 def casos_mortalidad(paises_mayor_1000_data):
   tasa_mort=paises_mayor_1000_data['cum_deaths']/paises_mayor_1000_data['cum_cases']
   fig,ax=plt.subplots(figsize=(15,5))
-  ax.scatter(paises_mayor_1000_data['cum_cases'], tasa_mort, c=paises_mayor_1000_data['cum_cases'], s=np.log(paises_mayor_1000_data['cum_cases']), alpha=0.5)
-  ax.set_xlabel('Número de Infectados')
+  ax.scatter(np.log(paises_mayor_1000_data['cum_cases']), tasa_mort, c=paises_mayor_1000_data['cum_cases'], s=(paises_mayor_1000_data['cum_cases'])**0.5, alpha=0.5)
+  ax.set_xlabel('Logaritmo Número de Infectados')
   ax.set_ylabel('Tasa de Mortalidad')
-  ax.set_title('Tasa de mortalidad respecto al número de infectados (Área log de no. muertes)')
+  ax.set_title('Tasa de mortalidad respecto al número de infectados (Área  no. muertes)')
   ax.grid(True)
   plt.show()
