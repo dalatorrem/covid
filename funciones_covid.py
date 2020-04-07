@@ -21,6 +21,11 @@ def visualizar():
   # !wget -O casedistribution.csv https://opendata.ecdc.europa.eu/covid19/casedistribution/csv
   
   datos = pd.read_csv("https://opendata.ecdc.europa.eu/covid19/casedistribution/csv")[['dateRep','cases','deaths','countriesAndTerritories']]
+  datos.replace('United_States_of_America','USA')
+  datos.replace('United_Kingdom','UK')
+  datos.replace('United_Arab_Emirates','UAE')
+  datos.replace('Dominic_Republic','Dominic_R')
+  
   paises=datos['countriesAndTerritories'].value_counts().index.array
   datos_cum=crear_data_frame(datos,paises)
   paises_mayor_1000_data,paises_mayor_1000=hacer_boxplot(datos_cum,paises)
@@ -81,7 +86,7 @@ def hacer_boxplot(datos_cum,paises):
   print('escriba "SI" (en mayúsculas)')
   tabla=input()
   if tabla=='SI':
-    paises_mayor_1000_data_mostrar = paises_mayor_1000_data.rename(columns={'countriesAndTerritories': 'PAIS','cum_cases':'Total_casos'})
+    paises_mayor_1000_data_mostrar = paises_mayor_1000_data.rename(columns={'countriesAndTerritories': 'PAIS','cum_cases':'CASOS'})
     display(paises_mayor_1000_data_mostrar)
   return paises_mayor_1000_data,paises_mayor_1000
 def incluir_dia(datos_cum):
