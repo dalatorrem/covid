@@ -11,7 +11,7 @@ import pandas as pd
 import numpy as np
 import math
 import matplotlib.pyplot as plt
-
+import display
 
 #####################################################################
 #### Función para visualizar
@@ -75,13 +75,13 @@ def hacer_boxplot(datos_cum,paises):
   print('Si desea ver la tabla del total de casos por países escriba "SI" (en mayúsculas) ')
   tabla=input()
   if tabla=='SI':
-    paises_mayor_1000_data
+    display(paises_mayor_1000_data)
   return paises_mayor_1000_data,paises_mayor_1000
 
 def hacer_graficos_por_paises(paises_mayor_1000_data,paises_mayor_1000,datos_cum):
   no_graficos=len(paises_mayor_1000)//5+1
   no_filas=math.ceil(no_graficos//3)
-  fig,axes=plt.subplots(nrows=no_filas,ncols=3,figsize=(19,3.5*no_filas))
+  fig,axes=plt.subplots(nrows=no_filas,ncols=3,figsize=(19,4*no_filas))
   eje_x=datos_cum[datos_cum['countriesAndTerritories']=='China']
   eje_x['dia']=np.arange(0,len(eje_x['cum_cases']))
   dia_num=lambda data,dia:data.loc[data['dateRep']==dia,'dia'].iloc[0]
