@@ -24,7 +24,7 @@ def visualizar():
   datos_cum=crear_data_frame(datos,paises)
   paises_mayor_1000_data,paises_mayor_1000=hacer_boxplot(datos_cum,paises)
   print('En el siguiente gráfico se')
-  print('muestran las curvas de crecimiento'
+  print('muestran las curvas de crecimiento')
   print('de los países con')
   print('más de mil casos.')
   print('Los países se han agrupado')
