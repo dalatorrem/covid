@@ -159,5 +159,5 @@ def casos_mortalidad(paises_mayor_1000_data):
   ax.grid(True)
   l=len(tasa_mort)
   for i in range(l):
-    ax.annotate(i, (np.log(paises_mayor_1000_data['cum_cases'][i], tasa_mort[i]))
+    ax.annotate(i, (np.log(paises_mayor_1000_data['cum_cases'])[i], tasa_mort[i]))
   plt.show()
