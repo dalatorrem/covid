@@ -123,7 +123,7 @@ def separador():
     print('###############################################################################################################################################################################################################################################################')
 def conjunto_graficas(no_graficos,datos_cum,paises_mayor_1000,paises_mayor_1000_data,variable,dia_inicial,dia_final):
   no_filas=math.ceil(no_graficos//3)
-  fig,axes=plt.subplots(nrows=no_filas,ncols=3,figsize=(18,4.5*no_filas))
+  fig,axes=plt.subplots(nrows=no_filas,ncols=3,figsize=(18,5.2*no_filas))
   datos=pd.DataFrame(columns=datos_cum.columns)
   grupo=1
   for fil in range(no_filas):
@@ -157,4 +157,7 @@ def casos_mortalidad(paises_mayor_1000_data):
   ax.set_ylabel('Tasa de Mortalidad')
   ax.set_title('Tasa de mortalidad respecto al número de infectados (Área raíz de no. muertes)')
   ax.grid(True)
+  l=len(tasa_mort)
+  for i in range(l):
+    ax.annotate(i, (np.log(paises_mayor_1000_data['cum_cases'][i], tasa_mort[i]))
   plt.show()
