@@ -19,7 +19,7 @@ from IPython.display import display
 def visualizar():
   # trayendo los datos de la página de la UE y creando dataframe
   # !wget -O casedistribution.csv https://opendata.ecdc.europa.eu/covid19/casedistribution/csv
-  datos = pd.read_csv("https://opendata.ecdc.europa.eu/covid19/casedistribution/csv")[['dateRep','cases','deaths','countriesAndTerritories']]
+  datos = pd.read_excel("https://www.ecdc.europa.eu/sites/default/files/documents/COVID-19-geographic-disbtribution-worldwide.xlsx")[['dateRep','cases','deaths','countriesAndTerritories']]
   
 
   maximo=len(datos[datos['countriesAndTerritories']=='United_States_of_America'])
